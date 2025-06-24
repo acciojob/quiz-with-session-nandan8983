@@ -1,5 +1,6 @@
 //your JS code here.
 document.addEventListener("DOMContentLoaded", () => {
+    
     const questionsElement = document.getElementById("questions");
     const submitButton = document.getElementById("submit");
     const scoreDisplay = document.getElementById("score");
