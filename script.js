@@ -4,12 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitButton = document.getElementById("submit");
     const scoreDisplay = document.getElementById("score");
 
-
+    // Load previous progress from session storage
     const savedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
 
-
+    // Display the quiz questions and choices
     function renderQuestions() {
-        questionsElement.innerHTML = ""; 
+        questionsElement.innerHTML = ""; // Clear previous content
         questions.forEach((question, i) => {
             const questionElement = document.createElement("div");
             const questionText = document.createElement("p");
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 choiceElement.setAttribute("name", `question-${i}`);
                 choiceElement.setAttribute("value", choice);
 
-             
+                // Restore previous selection
                 if (savedProgress[`question-${i}`] === choice) {
                     choiceElement.checked = true;
                 }
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
- 
+    // Load previous score from local storage
     const savedScore = localStorage.getItem("score");
     if (savedScore !== null) {
         scoreDisplay.textContent = `Your last score was ${savedScore} out of 5.`;
@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderQuestions();
 });
+
 
 // Do not change code below this line 
 // This code will just display the questions to the screen
