@@ -1,6 +1,69 @@
 //your JS code here.
+document.addEventListener("DOMContentLoaded", () => {
+    const questionsElement = document.getElementById("questions");
+    const submitButton = document.getElementById("submit");
+    const scoreDisplay = document.getElementById("score");
 
-// Do not change code below this line
+
+    const savedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
+
+
+    function renderQuestions() {
+        questionsElement.innerHTML = ""; 
+        questions.forEach((question, i) => {
+            const questionElement = document.createElement("div");
+            const questionText = document.createElement("p");
+            questionText.textContent = question.question;
+            questionElement.appendChild(questionText);
+
+            question.choices.forEach(choice => {
+                const label = document.createElement("label");
+                const choiceElement = document.createElement("input");
+                choiceElement.setAttribute("type", "radio");
+                choiceElement.setAttribute("name", `question-${i}`);
+                choiceElement.setAttribute("value", choice);
+
+             
+                if (savedProgress[`question-${i}`] === choice) {
+                    choiceElement.checked = true;
+                }
+
+                choiceElement.addEventListener("change", () => {
+                    savedProgress[`question-${i}`] = choice;
+                    sessionStorage.setItem("progress", JSON.stringify(savedProgress));
+                });
+
+                label.appendChild(choiceElement);
+                label.appendChild(document.createTextNode(choice));
+                questionElement.appendChild(label);
+            });
+
+            questionsElement.appendChild(questionElement);
+        });
+    }
+
+ 
+    const savedScore = localStorage.getItem("score");
+    if (savedScore !== null) {
+        scoreDisplay.textContent = `Your last score was ${savedScore} out of 5.`;
+    }
+
+    submitButton.addEventListener("click", () => {
+        let score = 0;
+        questions.forEach((question, i) => {
+            if (savedProgress[`question-${i}`] === question.answer) {
+                score++;
+            }
+        });
+
+        scoreDisplay.textContent = `Your score is ${score} out of 5.`;
+        localStorage.setItem("score", score);
+    });
+
+    renderQuestions();
+});
+
+// Do not change code below this line 
 // This code will just display the questions to the screen
 const questions = [
   {
